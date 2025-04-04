@@ -1,0 +1,15 @@
+# Paweł Rzatkiewicz 279723
+svn export https://repo.cs.pwr.edu.pl/279723-dir/mz1/lista1/zad1/
+cd zad1
+cd sprawozdanie
+
+shasum out1 # cc1fbe099c45e3c379c218dc67154388dd1aa76a  out1
+shasum out2 # c17ec5b030628c9b68373aba663a92f9423f7798  out2
+shasum out3 # 389550231a590e572fb9a0f25d23db00e260ee9f  out3
+
+
+#svn import out1 https://repo.cs.pwr.edu.pl/279723-dir/mz1/lista1/zad1/sprawozdanie
+
+./../../display-travel.bash out1
+./../../display-travel.bash out2
+./../../display-travel.bash out3
