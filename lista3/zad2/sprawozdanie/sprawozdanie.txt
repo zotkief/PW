@@ -1,0 +1,14 @@
+# Paweł Rzatkiewicz 279723
+svn export https://repo.cs.pwr.edu.pl/279723-dir/mz1/lista/zad2/
+cd zad2
+cd sprawozdanie
+
+go build main.go
+
+./main > out1
+./main > out2
+./main > out3
+
+./../display-travel-2.bash out1
+./../display-travel-2.bash out2
+./../display-travel-2.bash out3

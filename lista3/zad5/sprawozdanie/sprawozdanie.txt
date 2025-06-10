@@ -1,0 +1,14 @@
+# Paweł Rzatkiewicz 279723
+svn export https://repo.cs.pwr.edu.pl/279723-dir/mz1/lista3/zad5/
+cd zad5
+cd sprawozdanie
+
+gnatmake mutex_template.adb
+
+./mutex_template > out1
+./mutex_template > out2
+./mutex_template > out3
+
+./../display-travel-2.bash out1
+./../display-travel-2.bash out2
+./../display-travel-2.bash out3
