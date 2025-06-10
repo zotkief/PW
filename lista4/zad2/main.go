@@ -140,30 +140,20 @@ func process(id int, seed int64, symbol rune) {
 	for i := 0; i < steps; i++ {
 		fmt.Println(i, " ", steps)
 		delayRand(r)
-		//fmt.Println("1")
-		// Entry Protocol – Etap 1
 		setFlag(p.ID, 1)
 		changeState(EntryProtocol_1, &p, &traces)
-		//fmt.Println("2")
-
-		// Entry Protocol – Etap 2
 		for {
-			//fmt.Println("3")
 			snap := snapshotFlags()
-			//fmt.Println("snapshot:", snap)
 
 			if allIn(snap, map[int]bool{0: true, 1: true, 2: true}) {
 				break
 			}
 			time.Sleep(1 * time.Millisecond)
 		}
-		//fmt.Println("4")
 		setFlag(p.ID, 3)
 		changeState(EntryProtocol_2, &p, &traces)
 
-		// Entry Protocol – Etap 3
 		snap := snapshotFlags()
-		//fmt.Println("5")
 		waiting := false
 		for j, f := range snap {
 			if j != p.ID && f == 1 {
@@ -172,8 +162,6 @@ func process(id int, seed int64, symbol rune) {
 			}
 		}
 		if waiting {
-			//fmt.Println("6")
-			//fmt.Println("snapshot:", snap)
 			setFlag(p.ID, 2)
 			changeState(EntryProtocol_3, &p, &traces)
 
@@ -184,15 +172,12 @@ func process(id int, seed int64, symbol rune) {
 				}
 				time.Sleep(1 * time.Millisecond)
 			}
-			//fmt.Println("7")
 		}
 		setFlag(p.ID, 4)
 		changeState(EntryProtocol_4, &p, &traces)
 
 		for {
-			//fmt.Println("8")
 			snap = snapshotFlags()
-			//fmt.Println("snapshot:", snap)
 			ok := true
 			for j := 0; j < p.ID; j++ {
 				if snap[j] != 0 && snap[j] != 1 {
@@ -204,18 +189,14 @@ func process(id int, seed int64, symbol rune) {
 				break
 			}
 			time.Sleep(1 * time.Millisecond)
-			//fmt.Println("9")
 		}
 
-		// Critical section
 		changeState(CriticalSection, &p, &traces)
 		delayRand(r)
 
-		// Exit Protocol
 		changeState(ExitProtocol, &p, &traces)
 
 		for {
-			//fmt.Println("10")
 			snap = snapshotFlags()
 			ok := true
 			for j := p.ID + 1; j < NrOfProcesses; j++ {
@@ -229,11 +210,9 @@ func process(id int, seed int64, symbol rune) {
 			}
 			time.Sleep(1 * time.Millisecond)
 		}
-		//fmt.Println("11")
 
 		setFlag(p.ID, 0)
 
-		// Local section
 		changeState(LocalSection, &p, &traces)
 	}
 

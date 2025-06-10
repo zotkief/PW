@@ -1,5 +1,3 @@
--- Improved and corrected version of Mutex_Template with proper Ada syntax
--- Implementing Szymański's mutual exclusion algorithm
 
 with Ada.Text_IO;         use Ada.Text_IO;
 with Ada.Numerics.Float_Random; use Ada.Numerics.Float_Random;
@@ -28,7 +26,6 @@ procedure Mutex_Template is
    Min_Delay : constant Duration := 0.01;
    Max_Delay : constant Duration := 0.05;
 
-   -- States
    type Process_State is (Local_Section, Entry_Protocol_1, Entry_Protocol_2, Entry_Protocol_3, Entry_Protocol_4, Critical_Section, Exit_Protocol);
    Board_Width  : constant Integer := Nr_Of_Processes;
    Board_Height : constant Integer := Process_State'Pos(Process_State'Last) + 1;
@@ -169,7 +166,7 @@ procedure Mutex_Template is
    begin
       accept Init(Id : Integer; Seed : Integer; Symbol : Character) do
          Reset(G, Seed);
-         P.Id := Id + 1; -- ID from 1 to Nr_Of_Processes
+         P.Id := Id + 1;
          P.Symbol := Symbol;
          P.Position := (X => Id, Y => Process_State'Pos(Local_Section));
          Steps := Min_Steps + Integer(Float(Max_Steps - Min_Steps) * Random(G));
@@ -182,14 +179,11 @@ procedure Mutex_Template is
       end Start;
 
       for I in 1 .. Steps loop
-         --Put_Line (Integer'Image(I) & " " & Integer'Image(Steps));
          Rand_Delay;
 
-         -- Etap 1
          Set_Flag(P.Id, 1);
          Change_State(Entry_Protocol_1);
 
-         -- Etap 2
          loop
             declare
                Snap : constant Flag_Array := Snapshot;
@@ -203,7 +197,6 @@ procedure Mutex_Template is
          Set_Flag(P.Id, 3);
          Change_State(Entry_Protocol_2);
 
-         -- Etap 3
          declare
             Snap : Flag_Array := Snapshot;
             Waiting : Boolean := False;
